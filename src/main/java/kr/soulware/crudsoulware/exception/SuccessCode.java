@@ -19,12 +19,12 @@ public enum SuccessCode {
     /**
      * 201 CREATED
      */
-    CREATE_POST_SUCCESS(HttpStatus.OK, "성공적으로 게시글을 생성했습니다"),
+    CREATE_POST_SUCCESS(HttpStatus.CREATED, "성공적으로 게시글을 생성했습니다"),
 
     /**
      * 204 NO_CONTENT
      */
-    DELETE_POST_SUCCESS(HttpStatus.OK, "성공적으로 게시글을 삭제했습니다")
+    DELETE_POST_SUCCESS(HttpStatus.NO_CONTENT, "성공적으로 게시글을 삭제했습니다")
     ;
 
     private final HttpStatus httpStatus;
