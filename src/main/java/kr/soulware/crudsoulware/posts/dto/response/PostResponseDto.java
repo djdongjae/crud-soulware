@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,8 +17,17 @@ public class PostResponseDto {
     private String title;
     private String content;
     private String author;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     public static PostResponseDto from(Posts posts) {
-        return new PostResponseDto(posts.getId(), posts.getTitle(), posts.getContent(), posts.getAuthor());
+        return new PostResponseDto(
+                posts.getId(),
+                posts.getTitle(),
+                posts.getContent(),
+                posts.getAuthor(),
+                posts.getCreateAt(),
+                posts.getUpdateAt()
+        );
     }
 }
