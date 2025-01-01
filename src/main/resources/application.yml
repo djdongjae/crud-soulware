@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+  jpa:
+    database: ${spring.jpa.database}
+    database-platform: ${spring.jpa.database-platform}
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_schema: ${spring.jpa.properties.hibernate.default_schema}
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: ERROR
+        type:
+          descriptor:
+            sql:
+      springframework:
+        web: ERROR
