@@ -26,6 +26,7 @@ public enum ErrorCode {
     TOKEN_SIGNATURE_INVALID_EXCEPTION(HttpStatus.UNAUTHORIZED, "형식이 잘못된 토큰입니다."),
     AUTHORIZE_FAILED_EXCEPTION(HttpStatus.UNAUTHORIZED, "사용자 인증에 실패하였습니다."),
     INSUFFICIENT_AUTHENTICATION_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증이 필요한 URI로 요청하였습니다."),
+    INSUFFICIENT_AUTHENTICATION_TO_POSTS(HttpStatus.UNAUTHORIZED, "해당 글에 대한 접근 권한이 없습니다."),
 
     /**
      * 403 FORBIDDEN

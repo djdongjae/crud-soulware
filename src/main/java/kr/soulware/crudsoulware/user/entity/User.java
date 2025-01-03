@@ -2,6 +2,7 @@ package kr.soulware.crudsoulware.user.entity;
 
 import jakarta.persistence.*;
 import kr.soulware.crudsoulware.common.entity.BaseEntity;
+import kr.soulware.crudsoulware.posts.entity.Posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,13 @@ public class User extends BaseEntity {
 
     private String password;
 
+    @OneToMany(mappedBy = "author", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private final List<Posts> postsList = new ArrayList<>();
+
     @ElementCollection(targetClass = AuthorityType.class)
     @CollectionTable(name = "USER_AUTHORITY", joinColumns = @JoinColumn(name = "USER_ID"))
     @Enumerated(EnumType.STRING)
-    private List<AuthorityType> authorities = new ArrayList<>();
+    private final List<AuthorityType> authorities = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String username, String password) {

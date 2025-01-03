@@ -2,6 +2,10 @@ package kr.soulware.crudsoulware.user.service;
 
 import kr.soulware.crudsoulware.exception.ErrorCode;
 import kr.soulware.crudsoulware.exception.model.BadRequestException;
+import kr.soulware.crudsoulware.exception.model.NotFoundException;
+import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.posts.entity.Posts;
+import kr.soulware.crudsoulware.posts.repository.PostsRepository;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 import kr.soulware.crudsoulware.security.jwt.JwtProvider;
 import kr.soulware.crudsoulware.user.dto.request.SignInRequestDto;
@@ -16,11 +20,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PostsRepository postsRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -37,6 +44,13 @@ public class UserService {
                 requestDto.getUsername(), requestDto.getPassword()
         );
         return jwtProvider.generateToken(userDetails.getUsername());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> findPostsByLoginUser(UserDetailsImpl loginUser) {
+        User user = findUserByEmail(loginUser.getEmail());
+        List<Posts> postsList = postsRepository.findByAuthor(user);
+        return postsList.stream().map(PostResponseDto::from).toList();
     }
 
     private UserDetailsImpl getUserDetails(String username, String password) {
@@ -62,5 +76,13 @@ public class UserService {
                     ErrorCode.DUPLICATE_EMAIL_EXCEPTION.getMessage()
             );
         }
+    }
+
+    private User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(
+                        ErrorCode.NOT_FOUND_USER_EXCEPTION,
+                        ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage()
+                ));
     }
 }
