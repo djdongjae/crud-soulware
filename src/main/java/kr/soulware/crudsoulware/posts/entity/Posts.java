@@ -1,8 +1,8 @@
 package kr.soulware.crudsoulware.posts.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import kr.soulware.crudsoulware.common.entity.BaseEntity;
+import kr.soulware.crudsoulware.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +18,12 @@ public class Posts extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     @Builder
-    public Posts(String title, String content, String author) {
+    public Posts(String title, String content, User author) {
         this.title = title;
         this.content = content;
         this.author = author;
