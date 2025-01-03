@@ -25,7 +25,7 @@ public class PostResponseDto {
                 posts.getId(),
                 posts.getTitle(),
                 posts.getContent(),
-                posts.getAuthor(),
+                posts.getAuthor().getName(),
                 posts.getCreateAt(),
                 posts.getUpdateAt()
         );
