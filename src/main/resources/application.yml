@@ -25,3 +25,7 @@ logging:
             sql:
       springframework:
         web: ERROR
+jwt:
+  secretKey: ${jwt.secretKey}
+  signatureAlgorithm: ${jwt.signatureAlgorithm}
+  tokenExpired: ${jwt.tokenExpired}
