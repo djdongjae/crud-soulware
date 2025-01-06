@@ -17,6 +17,9 @@ public class JwtProperties {
     @Value("${jwt.signatureAlgorithm}")
     private SignatureAlgorithm signatureAlgorithm;
 
-    @Value("${jwt.tokenExpired}")
-    private Long tokenExpired;
+    @Value("${jwt.accessTokenExpired}")
+    private Long accessTokenExpired;
+
+    @Value("${jwt.refreshTokenExpired}")
+    private Long refreshTokenExpired;
 }

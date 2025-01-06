@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.soulware.crudsoulware.common.dto.BaseResponse;
 import kr.soulware.crudsoulware.exception.SuccessCode;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.refreshToken.dto.TokenResponseDto;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 import kr.soulware.crudsoulware.user.controller.docs.UserApiDocs;
 import kr.soulware.crudsoulware.user.dto.request.SignInRequestDto;
@@ -31,8 +32,8 @@ public class UserController implements UserApiDocs {
     }
 
     @PostMapping("/sign-in")
-    public BaseResponse<String> signIn(@RequestBody @Valid SignInRequestDto requestDto) {
-        final String data = userService.signIn(requestDto);
+    public BaseResponse<TokenResponseDto> signIn(@RequestBody @Valid SignInRequestDto requestDto) {
+        final TokenResponseDto data = userService.signIn(requestDto);
         return BaseResponse.success(SuccessCode.SIGN_IN_USER_SUCCESS, data);
     }
 

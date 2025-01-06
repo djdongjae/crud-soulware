@@ -28,4 +28,5 @@ logging:
 jwt:
   secretKey: ${jwt.secretKey}
   signatureAlgorithm: ${jwt.signatureAlgorithm}
-  tokenExpired: ${jwt.tokenExpired}
+  accessTokenExpired: ${jwt.accessTokenExpired}
+  refreshTokenExpired: ${jwt.refreshTokenExpired}

@@ -3,6 +3,9 @@ package kr.soulware.crudsoulware.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import kr.soulware.crudsoulware.refreshToken.dto.TokenResponseDto;
+import kr.soulware.crudsoulware.refreshToken.entity.RefreshToken;
+import kr.soulware.crudsoulware.refreshToken.repository.RefreshTokenRepository;
 import kr.soulware.crudsoulware.util.DateConvertor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,6 +15,7 @@ import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ import java.util.function.Function;
 public class JwtProvider {
 
     private final JwtProperties jwtProperties;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     private Key getSigningKey() {
         final byte[] keyBytes = jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8);
@@ -50,9 +55,19 @@ public class JwtProvider {
         return extractExpiration(token).isBefore(LocalDateTime.now());
     }
 
-    public String generateToken(String username) {
+    public TokenResponseDto generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return generateToken(claims, username, jwtProperties.getTokenExpired());
+        String accessToken = generateToken(claims, username, jwtProperties.getAccessTokenExpired());
+        String refreshToken = generateToken(claims, username, jwtProperties.getRefreshTokenExpired());
+        refreshTokenRepository.save(generateRefreshToken(refreshToken, username));
+        return TokenResponseDto.of(accessToken, refreshToken);
+    }
+
+    private RefreshToken generateRefreshToken(String refreshToken, String username) {
+        return RefreshToken.builder()
+                .refreshToken(refreshToken)
+                .username(username)
+                .build();
     }
 
     private String generateToken(Map<String, Object> claims, String subject, Long expiryTime) {
@@ -66,12 +81,17 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validateToken(String token, String username) {
+    public boolean validateAccessToken(String token, String username) {
         final String tokenUsername = extractUsername(token);
         return (username.equals(tokenUsername) && !isTokenExpired(token));
     }
 
+    public boolean validateRefreshToken(String token) {
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUsername(extractUsername(token));
+        return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken());
+    }
+
     public Long getTokenExpirationDate() {
-        return jwtProperties.getTokenExpired();
+        return jwtProperties.getAccessTokenExpired();
     }
 }
