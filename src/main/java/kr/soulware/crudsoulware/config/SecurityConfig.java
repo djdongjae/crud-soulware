@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/profile")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/posts/**")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/posts/**", "/api/v1/refresh")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users", "/api/v1/users/sign-in")
                         .permitAll()

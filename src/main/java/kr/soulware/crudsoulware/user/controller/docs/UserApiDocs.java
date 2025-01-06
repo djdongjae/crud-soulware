@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.soulware.crudsoulware.common.dto.BaseResponse;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.refreshToken.dto.TokenResponseDto;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 import kr.soulware.crudsoulware.user.dto.request.SignInRequestDto;
 import kr.soulware.crudsoulware.user.dto.request.SignUpRequestDto;
@@ -31,7 +32,7 @@ public interface UserApiDocs {
                     description = "요청이 정상적으로 처리되었을 때"
             )
     })
-    BaseResponse<String> signIn(SignInRequestDto requestDto);
+    BaseResponse<TokenResponseDto> signIn(SignInRequestDto requestDto);
 
     @Operation(summary = "내가 쓴 글 불러오기")
     @ApiResponses(value = {

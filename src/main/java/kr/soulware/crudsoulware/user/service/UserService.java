@@ -6,6 +6,7 @@ import kr.soulware.crudsoulware.exception.model.NotFoundException;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
 import kr.soulware.crudsoulware.posts.entity.Posts;
 import kr.soulware.crudsoulware.posts.repository.PostsRepository;
+import kr.soulware.crudsoulware.refreshToken.dto.TokenResponseDto;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 import kr.soulware.crudsoulware.security.jwt.JwtProvider;
 import kr.soulware.crudsoulware.user.dto.request.SignInRequestDto;
@@ -39,7 +40,7 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
-    public String signIn(SignInRequestDto requestDto) {
+    public TokenResponseDto signIn(SignInRequestDto requestDto) {
         UserDetailsImpl userDetails = getUserDetails(
                 requestDto.getUsername(), requestDto.getPassword()
         );
