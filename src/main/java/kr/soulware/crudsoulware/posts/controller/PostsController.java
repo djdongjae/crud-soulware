@@ -7,6 +7,7 @@ import kr.soulware.crudsoulware.posts.controller.docs.PostsApiDocs;
 import kr.soulware.crudsoulware.posts.dto.request.PostsSaveRequestDto;
 import kr.soulware.crudsoulware.posts.dto.request.PostsUpdateRequestDto;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.posts.dto.response.PostsWithRepliesResponseDto;
 import kr.soulware.crudsoulware.posts.service.PostsService;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -60,5 +61,11 @@ public class PostsController implements PostsApiDocs {
     ) {
         final Long data = postsService.delete(id, loginUser);
         return BaseResponse.success(SuccessCode.DELETE_POST_SUCCESS, data);
+    }
+
+    @GetMapping("/{id}/replies")
+    public BaseResponse<PostsWithRepliesResponseDto> findWithReplies(@PathVariable Long id) {
+        final PostsWithRepliesResponseDto data = postsService.findWithReplies(id);
+        return BaseResponse.success(SuccessCode.GET_POST_SUCCESS, data);
     }
 }
