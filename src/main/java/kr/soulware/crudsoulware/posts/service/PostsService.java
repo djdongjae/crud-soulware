@@ -6,6 +6,7 @@ import kr.soulware.crudsoulware.exception.model.UnauthorizedException;
 import kr.soulware.crudsoulware.posts.dto.request.PostsSaveRequestDto;
 import kr.soulware.crudsoulware.posts.dto.request.PostsUpdateRequestDto;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.posts.dto.response.PostsWithRepliesResponseDto;
 import kr.soulware.crudsoulware.posts.entity.Posts;
 import kr.soulware.crudsoulware.posts.repository.PostsRepository;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
@@ -54,6 +55,12 @@ public class PostsService {
     }
 
     @Transactional(readOnly = true)
+    public PostsWithRepliesResponseDto findWithReplies(Long id) {
+        Posts posts = findPostsWithRepliesById(id);
+        return PostsWithRepliesResponseDto.from(posts);
+    }
+
+    @Transactional(readOnly = true)
     public List<PostResponseDto> findAll() {
         List<Posts> postsList = postsRepository.findAll();
         return postsList.stream().map(PostResponseDto::from).toList();
@@ -65,6 +72,14 @@ public class PostsService {
         checkAuthor(posts, loginUser);
         postsRepository.delete(posts);
         return id;
+    }
+
+    private Posts findPostsWithRepliesById(Long postsId) {
+        return postsRepository.findWithRepliesById(postsId)
+                .orElseThrow(() -> new NotFoundException(
+                        ErrorCode.NOT_FOUND_POST_EXCEPTION,
+                        ErrorCode.NOT_FOUND_POST_EXCEPTION.getMessage()
+                ));
     }
 
     private Posts findPostsById(Long postsId) {

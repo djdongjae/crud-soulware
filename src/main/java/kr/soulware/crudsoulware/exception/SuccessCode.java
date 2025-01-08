@@ -14,7 +14,7 @@ public enum SuccessCode {
      */
     GET_POST_SUCCESS(HttpStatus.OK, "성공적 게시글을 조회했습니다"),
     UPDATE_POST_SUCCESS(HttpStatus.OK, "성공적으로 게시글을 수정했습니다"),
-    SIGN_IN_USER_SUCCESS(HttpStatus.OK, "로그인에 성공했습니다."),
+    SIGN_IN_USER_SUCCESS(HttpStatus.OK, "로그인에 성공했습니다"),
 
 
     /**
@@ -22,6 +22,7 @@ public enum SuccessCode {
      */
     CREATE_POST_SUCCESS(HttpStatus.CREATED, "성공적으로 게시글을 생성했습니다"),
     CREATE_USER_SUCCESS(HttpStatus.CREATED, "성공적으로 유저를 생성하였습니다"),
+    CREATE_REPLY_SUCCESS(HttpStatus.CREATED, "성공적으로 댓글을 생성했습니다"),
 
     /**
      * 204 NO_CONTENT

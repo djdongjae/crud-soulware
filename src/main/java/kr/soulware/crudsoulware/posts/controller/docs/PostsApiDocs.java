@@ -8,6 +8,7 @@ import kr.soulware.crudsoulware.common.dto.BaseResponse;
 import kr.soulware.crudsoulware.posts.dto.request.PostsSaveRequestDto;
 import kr.soulware.crudsoulware.posts.dto.request.PostsUpdateRequestDto;
 import kr.soulware.crudsoulware.posts.dto.response.PostResponseDto;
+import kr.soulware.crudsoulware.posts.dto.response.PostsWithRepliesResponseDto;
 import kr.soulware.crudsoulware.security.UserDetailsImpl;
 
 import java.util.List;
@@ -59,4 +60,13 @@ public interface PostsApiDocs {
             )
     })
     BaseResponse<Long> delete(Long id, UserDetailsImpl loginUser);
+
+    @Operation(summary = "특정 게시글 댓글과 함께 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            )
+    })
+    BaseResponse<PostsWithRepliesResponseDto> findWithReplies(Long id);
 }
